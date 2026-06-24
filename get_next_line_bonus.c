@@ -92,8 +92,8 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || fd >= 1024 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (read(fd, 0, 0) < 0)
-		return (free(storage[fd]), storage[fd] = NULL, NULL);
+	if (read(fd, 0, 0) < 0)  // No poner esta linea crashea mollinete
+		return (free(storage[fd]), storage[fd] = NULL, NULL); 
 	storage[fd] = ft_read_file(fd, storage[fd]);
 	if (!storage[fd])
 		return (NULL);
