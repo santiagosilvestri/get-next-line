@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sasilves <sasilves@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/20 12:04:21 by sasilves          #+#    #+#             */
-/*   Updated: 2026/06/24 16:55:14 by sasilves         ###   ########.fr       */
+/*   Updated: 2026/06/24 16:58:28 by sasilves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static char	*ft_read_file(int fd, char *storage)
 {
@@ -87,17 +87,19 @@ static char	*ft_update_storage(char *storage)
 
 char	*get_next_line(int fd)
 {
-	static char	*storage;
+	static char	*storage[1024];
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
-		return (free(storage), storage = NULL, NULL);
-	storage = ft_read_file(fd, storage);
-	if (!storage)
+	if (fd < 0 || fd >= 1024 || BUFFER_SIZE <= 0)
 		return (NULL);
-	line = ft_get_line(storage);
+	if (read(fd, 0, 0) < 0)
+		return (free(storage[fd]), storage[fd] = NULL, NULL);
+	storage[fd] = ft_read_file(fd, storage[fd]);
+	if (!storage[fd])
+		return (NULL);
+	line = ft_get_line(storage[fd]);
 	if (!line)
-		return (free(storage), storage = NULL, NULL);
-	storage = ft_update_storage(storage);
+		return (free(storage[fd]), storage[fd] = NULL, NULL);
+	storage[fd] = ft_update_storage(storage[fd]);
 	return (line);
 }
