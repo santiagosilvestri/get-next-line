@@ -6,7 +6,7 @@
 /*   By: sasilves <sasilves@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/20 12:04:21 by sasilves          #+#    #+#             */
-/*   Updated: 2026/06/24 16:58:28 by sasilves         ###   ########.fr       */
+/*   Updated: 2026/06/26 08:49:12 by sasilves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,6 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || fd >= 1024 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (read(fd, 0, 0) < 0)  // No poner esta linea crashea mollinete
-		return (free(storage[fd]), storage[fd] = NULL, NULL); 
 	storage[fd] = ft_read_file(fd, storage[fd]);
 	if (!storage[fd])
 		return (NULL);
